@@ -12,8 +12,18 @@ export default function Index() {
   const [vitalGoals, setVitalGoals] = useState<string[]>([]);
   const [modalVisible, setModalVisible] = useState(false);
 
+  const handleModalOpen = () => {
+    setModalVisible(true);
+  };
+
+  const closeGoalHandler = () => {
+    setModalVisible(false);
+  }
+
   const addGoalHandler =(enteredGoal: any) =>{
-    setVitalGoals((currentGoals) => [...currentGoals, enteredGoal]);
+    setVitalGoals((currentGoals) => 
+      [...currentGoals, enteredGoal]);
+    setModalVisible(false);
   }
 
   const deleteGoalHandler = (index: number) => {
@@ -25,15 +35,14 @@ export default function Index() {
   return (
     <View style={styles.container}>
       {/* button to open modal */}
-      <Button title="Add New Goal" color="olive" />
-
-        {/* GoalInput-Modal Component */}
-      <GoalInput 
-      onAddGoal={addGoalHandler}/>
+      <Button title="Add New Goal" color="dodgerblue" 
+      onPress={handleModalOpen} />
+      <GoalInput visible={modalVisible} 
+      onAddGoal={addGoalHandler}
+      onCancel={closeGoalHandler} />
 
       {/* Goals List */}
       <View style={styles.listContainer}>
-        <Text style={styles.headerText}>List of goals</Text>
         <FlatList
         data={vitalGoals}
         renderItem={({item}) =>
@@ -54,7 +63,8 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     paddingTop: 40,
-    paddingHorizontal: 15
+    paddingHorizontal: 15,
+    backgroundColor: 'navy'
   },
   listContainer:{
     flex: 1,
