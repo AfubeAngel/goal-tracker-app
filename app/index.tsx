@@ -2,57 +2,46 @@ import {
   Text, 
   View, 
   StyleSheet, 
-  Button, 
-  TextInput, 
-  ScrollView, 
-  FlatList } from "react-native";
+  FlatList, 
+  Button} from "react-native";
 import React, {useState} from 'react';
+import GoalItem from '../components/goalItem';
+import GoalInput from '../components/goalinput';
 
 export default function Index() {
-  const [enteredGoal, setEnteredGoal] = useState('');
   const [vitalGoals, setVitalGoals] = useState<string[]>([]);
+  const [modalVisible, setModalVisible] = useState(false);
 
-  const goalInputHandler =(enteredGoal: any) =>{
-    setEnteredGoal(enteredGoal);
-  }
-
-  const addGoalHandler =() =>{
+  const addGoalHandler =(enteredGoal: any) =>{
     setVitalGoals((currentGoals) => [...currentGoals, enteredGoal]);
-    setEnteredGoal('');
   }
 
-  // if(goals.length > 0){
-  //   return ("provide goal");
-  // }
+  const deleteGoalHandler = (index: number) => {
+    setVitalGoals((currentGoals) => {
+      return currentGoals.filter((_, i) => i !== index);
+    });
+  };
 
   return (
-    <View style={styles.container}
-    >
-      <View style={styles.inputContainer}>
-      <TextInput 
-      placeholder="Write your goal..."
-      style={styles.input}
-      // value={enteredGoal}
-      onChangeText={goalInputHandler} />
-      <Button 
-      title="ADD YOUR GOAL"
-      onPress={addGoalHandler} />
-      </View>
-      {/* using scrollview */}
-      {/* <ScrollView style={styles.listContainer}>
-      <Text style={styles.headerText}>List of goals</Text>
-      {vitalGoals.map((goal, index) => (
-        <Text style={styles.goalItem} key={index}>{goal}</Text>
-      ))}
-      </ScrollView> */}
+    <View style={styles.container}>
+      {/* button to open modal */}
+      <Button title="Add New Goal" color="olive" />
 
-      {/* using flatlist which is more efficient for this */}
+        {/* GoalInput-Modal Component */}
+      <GoalInput 
+      onAddGoal={addGoalHandler}/>
+
+      {/* Goals List */}
       <View style={styles.listContainer}>
         <Text style={styles.headerText}>List of goals</Text>
         <FlatList
         data={vitalGoals}
         renderItem={({item}) =>
-        <Text style={styles.goalItem} key={item}>{item}</Text> }
+        <GoalItem 
+        item={item}
+        onDeleteGoal={() => 
+          deleteGoalHandler(vitalGoals.indexOf(item))}
+        /> }
         keyExtractor={(item, index) => index.toString()}
       />
       </View>
@@ -67,21 +56,6 @@ const styles = StyleSheet.create({
     paddingTop: 40,
     paddingHorizontal: 15
   },
-  inputContainer:{
-    flexDirection: "row",
-    justifyContent: "space-between",
-    width: "100%",
-    paddingBottom: 40,
-    borderBottomWidth: 1,
-    borderBottomColor: 'black'
-  },
-  input:{
-    width: "60%",
-    borderColor: "black",
-    borderWidth: 1,
-    padding: 12,
-    marginRight: 10,
-  },
   listContainer:{
     flex: 1,
     width: "100%",
@@ -91,12 +65,4 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: "bold",
   },
-  goalItem: {
-    padding: 8,
-    margin: 8,
-    backgroundColor: "dodgerblue",
-    color: 'white',
-    fontSize: 18,
-    borderRadius: 8
-  }
 })
