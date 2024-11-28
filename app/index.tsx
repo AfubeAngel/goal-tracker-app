@@ -3,6 +3,7 @@ import {
   View, 
   StyleSheet, 
   FlatList, 
+  TouchableOpacity,
   Button} from "react-native";
 import React, {useState} from 'react';
 import GoalItem from '../components/goalItem';
@@ -35,8 +36,12 @@ export default function Index() {
   return (
     <View style={styles.container}>
       {/* button to open modal */}
-      <Button title="Add New Goal" color="dodgerblue" 
-      onPress={handleModalOpen} />
+      {/* <Button title="Add New Goal" color="dodgerblue" 
+      onPress={handleModalOpen} /> */}
+        <TouchableOpacity style={styles.addbutton} 
+        onPress={handleModalOpen}>
+          <Text style={styles.headerText}>Add New Goal</Text>
+        </TouchableOpacity>
       <GoalInput visible={modalVisible} 
       onAddGoal={addGoalHandler}
       onCancel={closeGoalHandler} />
@@ -74,5 +79,14 @@ const styles = StyleSheet.create({
   headerText:{
     fontSize: 18,
     fontWeight: "bold",
+    color: 'white'
   },
+  addbutton:{
+    width: '90%',
+    backgroundColor: 'dodgerblue',
+    padding: 8,
+    alignItems: 'center',
+    color: 'white',
+    borderRadius: 4,
+  }
 })
