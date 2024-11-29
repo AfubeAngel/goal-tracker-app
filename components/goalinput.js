@@ -23,7 +23,8 @@ const GoalInput = (props) => {
           <Image 
           style={styles.image}
           source={{
-            uri:"https://cdn.pixabay.com/photo/2017/01/05/16/58/goal-setting-1955806_1280.png"}} />
+            uri:"https://cdn.pixabay.com/photo/2017/01/05/16/58/goal-setting-1955806_1280.png"}} 
+            onError={(error) => console.log("Image loading error:", error.nativeEvent)}/>
         <TextInput 
         placeholder="Write your goal..."
         style={styles.input}
@@ -31,10 +32,10 @@ const GoalInput = (props) => {
         onChangeText={goalInputHandler} />
         <View style={styles.buttonGroup}>
           <View style={styles.goalbutton}>   
-          <Button title='Cancel' color='red' onPress={props.onCancel} />
+          <Button title='Cancel' color='#f31282' onPress={props.onCancel} />
           </View>
           <View style={styles.goalbutton}>
-          <Button title='Add Goal' onPress={addGoalHandler} />
+          <Button title='Add Goal' onPress={addGoalHandler} color='#5e0acc' />
           </View>
         </View>
         </View>
@@ -53,13 +54,15 @@ const styles = StyleSheet.create({
       image: {
         width: 150,
         height: 100,
-        margin: 10,
       },
       input:{
         width: "85%",
-        borderColor: "black",
+        borderColor: "#e4d0ff",
+        borderRadius: 6,
+        backgroundColor: "#e4d0ff",
+        color: '#120428',
         borderWidth: 1,
-        padding: 12,
+        padding: 16,
       },
       buttonGroup: {
         flexDirection: "row",

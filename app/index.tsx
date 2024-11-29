@@ -4,10 +4,11 @@ import {
   StyleSheet, 
   FlatList, 
   TouchableOpacity,
-  Button} from "react-native";
+  } from "react-native";
 import React, {useState} from 'react';
 import GoalItem from '../components/goalItem';
 import GoalInput from '../components/goalinput';
+import { StatusBar } from "expo-status-bar";
 
 export default function Index() {
   const [vitalGoals, setVitalGoals] = useState<string[]>([]);
@@ -34,32 +35,31 @@ export default function Index() {
   };
 
   return (
+    <>
+    <StatusBar />
     <View style={styles.container}>
       {/* button to open modal */}
-      {/* <Button title="Add New Goal" color="dodgerblue" 
-      onPress={handleModalOpen} /> */}
-        <TouchableOpacity style={styles.addbutton} 
+      <TouchableOpacity style={styles.addbutton}
         onPress={handleModalOpen}>
-          <Text style={styles.headerText}>Add New Goal</Text>
-        </TouchableOpacity>
-      <GoalInput visible={modalVisible} 
-      onAddGoal={addGoalHandler}
-      onCancel={closeGoalHandler} />
+        <Text style={styles.headerText}>Add New Goal</Text>
+      </TouchableOpacity>
+
+      {/* Goal Input Modal */}
+      <GoalInput visible={modalVisible}
+        onAddGoal={addGoalHandler}
+        onCancel={closeGoalHandler} />
 
       {/* Goals List */}
       <View style={styles.listContainer}>
         <FlatList
-        data={vitalGoals}
-        renderItem={({item}) =>
-        <GoalItem 
-        item={item}
-        onDeleteGoal={() => 
-          deleteGoalHandler(vitalGoals.indexOf(item))}
-        /> }
-        keyExtractor={(item, index) => index.toString()}
-      />
+          data={vitalGoals}
+          renderItem={({ item }) => <GoalItem
+            item={item}
+            onDeleteGoal={() => deleteGoalHandler(vitalGoals.indexOf(item))} />}
+          keyExtractor={(item, index) => index.toString()} />
       </View>
     </View>
+    </>
   );
 }
 
@@ -69,7 +69,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     paddingTop: 40,
     paddingHorizontal: 15,
-    backgroundColor: 'navy'
+    backgroundColor: '#1e085a'
   },
   listContainer:{
     flex: 1,
